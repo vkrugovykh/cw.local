@@ -256,6 +256,54 @@ p {
 .footer .fa-heart {
   color: #fb866a;
 }
+
+.feedback {
+  margin-bottom: 20px;
+}
+
+.feedback .item {
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.feedback .key-comment {
+  display: inline-block;
+  float: left;
+  width: 20px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.feedback .comment {
+  font-size: 16px;
+}
+
+.feedback-section .form {
+  width: 100%;
+}
+
+.feedback-section .textarea {
+  width: 100%;
+  overflow: auto;
+  border: 2px solid #42A8C0;
+  resize: none;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.feedback-section .btn {
+  border: 2px solid #42A8C0;
+  background: #7BC2D3;
+  color: #ffffff;
+  border-radius: unset;
+}
+
+.feedback-section .btn:hover {
+  border: 2px solid #7BC2D3;
+  background: #42A8C0;
+  color: #ffffff;
+}
+
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
   .sidebar-wrapper {
