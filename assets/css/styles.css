@@ -269,7 +269,7 @@ p {
 .feedback .key-comment {
   display: inline-block;
   float: left;
-  width: 20px;
+  width: 30px;
   font-size: 16px;
   font-weight: 700;
 }
@@ -292,6 +292,7 @@ p {
 }
 
 .feedback-section .btn {
+  display: block;
   border: 2px solid #42A8C0;
   background: #7BC2D3;
   color: #ffffff;

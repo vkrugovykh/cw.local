@@ -1,19 +1,5 @@
 <?
-
-$connection = new PDO ('mysql:host=localhost; dbname=academy; charset=utf8', 'root', '');
-$profile = $connection->query('SELECT * FROM `profile`');
-$profile = $profile->fetchAll();
-
-$educations = $connection->query('SELECT * FROM `education` ORDER BY yearEnd = "" DESC, yearEnd DESC'); //Если yearEnd пуст, то выводим первым
-$languages = $connection->query('SELECT * FROM `languages`');
-$interests = $connection->query('SELECT * FROM `interests`');
-$about = $connection->query('SELECT * FROM `about`');
-$about = $about->fetchAll();
-$experiences = $connection->query('SELECT * FROM `experiences` ORDER BY yearEnd IS NULL DESC, yearEnd DESC'); //Если yearEnd NULL, то выводим первым
-$projects = $connection->query('SELECT * FROM `projects`');
-$skills = $connection->query('SELECT * FROM `skills`');
-
-//var_dump($about[0]['content']);die;
+    require_once 'functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -93,6 +79,11 @@ $skills = $connection->query('SELECT * FROM `skills`');
 
     <div class="main-wrapper">
 
+        <div class="message-block">
+            <?= $userMessage ?>
+        </div>
+        <!-- /.message-block -->
+
         <section class="section summary-section">
             <h2 class="section-title"><i class="fa fa-user"></i>Обо мне</h2>
             <div class="summary">
@@ -152,13 +143,6 @@ $skills = $connection->query('SELECT * FROM `skills`');
         <section class="feedback-section section">
             <h2 class="section-title"><i class="fa fa-smile-o"></i>Отзывы</h2>
 
-            <? if ($_POST['comment']) {
-                $comment = $_POST['comment'];
-                $connection->query("INSERT INTO `comments` (`comment`) VALUES ('$comment')");
-            }
-            $commentsOfUsers = $connection->query('SELECT * FROM `comments`');
-            ?>
-
             <div class="feedback">
                 <? foreach($commentsOfUsers as $key=>$comment) { ?>
                     <div class="item">
@@ -171,6 +155,7 @@ $skills = $connection->query('SELECT * FROM `skills`');
             <form class="form" action="#" method="POST">
                 <textarea class="textarea" name="comment" rows="10" placeholder="Оставить отзыв"></textarea>
                 <button class="btn">Отправить отзыв</button>
+                * Учтите, в отзыв попадет только текст, все тэги будут удалены.
             </form>
 
         </section><!--//feedback-section-->
