@@ -278,6 +278,10 @@ p {
   font-size: 16px;
 }
 
+.feedback .comment span {
+  color: #97AAC3;
+}
+
 .feedback-section .form {
   width: 100%;
 }
@@ -289,6 +293,13 @@ p {
   resize: none;
   margin-bottom: 10px;
   padding: 10px;
+}
+
+.feedback-section .input {
+  width: 100%;
+  border: 2px solid #42A8C0;
+  margin-bottom: 10px;
+  padding: 5px 10px;
 }
 
 .feedback-section .btn {

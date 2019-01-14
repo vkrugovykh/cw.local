@@ -1,5 +1,7 @@
 <?php
 
+    define('BAD_WORD', 'редиска');
+
     //Вывод сообщения при ошибке
     function feedbackError($msg = '', $subMsg = '') {
         return "<div class=\"alert alert-danger\" role=\"alert\">
@@ -22,33 +24,27 @@
 
     $userMessage = ''; //Сообщение для пользователя, необходимо текст сообщения оборачивать тегом <div>
 
-    $connection = new PDO ('mysql:host=localhost; dbname=academy; charset=utf8', 'root', '');
-    $profile = $connection->query('SELECT * FROM `profile`');
-    $profile = $profile->fetchAll();
-    $educations = $connection->query('SELECT * FROM `education` ORDER BY yearEnd = "" DESC, yearEnd DESC'); //Если yearEnd пуст, то выводим первым
-    $languages = $connection->query('SELECT * FROM `languages`');
-    $interests = $connection->query('SELECT * FROM `interests`');
-    $about = $connection->query('SELECT * FROM `about`');
-    $about = $about->fetchAll();
-    $experiences = $connection->query('SELECT * FROM `experiences` ORDER BY yearEnd IS NULL DESC, yearEnd DESC'); //Если yearEnd NULL, то выводим первым
-    $projects = $connection->query('SELECT * FROM `projects`');
-    $skills = $connection->query('SELECT * FROM `skills`');
+    require_once 'db.php';
 
     if ($_POST['comment']) {
         //Удалим HTML из отзыва, и преобразуем спец. символы в HTML сущьности.
         $comment = htmlspecialchars(strip_tags($_POST['comment']), ENT_QUOTES);
+        $username = htmlspecialchars(strip_tags($_POST['username']), ENT_QUOTES);
 
-        //Проверим, нет ли уже такого отзыва
-        $duplicateTest = $connection->query("SELECT count(*) FROM `comments` WHERE `comment` = '$comment'");
+        //Добавляем текущее время и дату
+        $date = date('d.m.Y H:i:s');
 
-        $duplicateTest = $duplicateTest->fetchAll();
-        if ($duplicateTest[0][0] > 0) { //Если такой отзыв есть, не записываем его и выводим сообщение пользователю
-            $userMessage = feedbackError('Такой отзыв уже есть.', 'Вы можете оставить новый отзыв.');
+        if (mb_stripos($comment, BAD_WORD) !== FALSE) {
+            $userMessage = feedbackError('Нельзя использовать слово "' . BAD_WORD . '".', 'Вы можете оставить новый отзыв.');
         } else {
-            $connection->query("INSERT INTO `comments` (`comment`) VALUES ('$comment')");
-            $userMessage = feedbackSuccess('Ваш отзыв добавлен.', 'Вы можете оставить новый отзыв.');
+            $safe = $connection->prepare("INSERT INTO `comments` SET name=:username, date='$date', comment=:comment");
+            $array = ['username'=>$username, 'comment'=>$comment];
+            $safe->execute($array);
+
+            //$connection->query("INSERT INTO `comments` (`comment`, `name`, `date`) VALUES ('$comment', '$name', '$date')");
+            header('location:index.php');
         }
 
     }
-    //Изменил сортировку, что бы вначале выводить последний отзыв
+    //Выводим последний отзыв первым
     $commentsOfUsers = $connection->query('SELECT * FROM `comments` ORDER BY `id` DESC');

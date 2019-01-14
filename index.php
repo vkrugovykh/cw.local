@@ -147,12 +147,13 @@
                 <? foreach($commentsOfUsers as $key=>$comment) { ?>
                     <div class="item">
                         <div class="key-comment"><?= $key + 1; ?>) </div>
-                        <div class="comment"><?= $comment['comment']; ?>.</div>
+                        <div class="comment"><span><?= $comment['name'] . ', ' . $comment['date'] ?></span><?=' - ' . $comment['comment']; ?>.</div>
                     </div><!--//item-->
                 <? } ?>
             </div><!--//feedback-->
 
             <form class="form" action="#" method="POST">
+                <input class="input" name="username" type="text" placeholder="Введите имя">
                 <textarea class="textarea" name="comment" rows="10" placeholder="Оставить отзыв"></textarea>
                 <button class="btn">Отправить отзыв</button>
                 * Учтите, в отзыв попадет только текст, все тэги будут удалены.
