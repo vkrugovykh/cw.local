@@ -41,7 +41,6 @@
             $array = ['username'=>$username, 'comment'=>$comment];
             $safe->execute($array);
 
-            //$connection->query("INSERT INTO `comments` (`comment`, `name`, `date`) VALUES ('$comment', '$name', '$date')");
             header('location:index.php');
         }
 
